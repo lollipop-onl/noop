@@ -1,5 +1,6 @@
 import { noop, noopLax } from '..';
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function callback<T extends (...args: any) => any>(fn: T): ReturnType<T> {
   return fn();
 }
