@@ -17,9 +17,10 @@ $ npm install @lollipop-onl/noop
 This example works when set `compilerOptions.esModuleInterop` is `true` in `tsconfig.json`.
 
 ```ts
-import noop from '@lollipop-onl/noop';
+import { noop, noopLax } from '@lollipop-onl/noop';
 
 noop(); // do nothing
+noopLax(1, 'a', []); // accept any arguments
 ```
 
 ## Licence

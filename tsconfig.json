@@ -10,7 +10,10 @@
     "removeComments": true,
     "declaration": true,
     "outDir": "lib",
-    "types": ["@types/node"]
+    "types": [
+      "@types/node",
+      "@types/jest"
+    ]
   },
   "files": ["src/index.ts"]
 }

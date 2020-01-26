@@ -14,6 +14,4 @@ const noopLax = (...args: any[]): any => {
   // do nothing
 };
 
-export { noopLax };
-export default noop;
-module.exports = noop;
+export { noop, noopLax };
