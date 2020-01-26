@@ -1,0 +1,10 @@
+{
+  "name": "@lollipop-onl/noop",
+  "version": "0.0.0",
+  "description": "The \"noop\" function for TypeScript",
+  "main": "lib/index.js",
+  "repository": "https://github.com/lollipop-onl/noop.git",
+  "author": "lollipop-onl <lollipop@simoochee.net>",
+  "license": "MIT",
+  "private": false
+}

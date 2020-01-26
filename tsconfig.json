@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "target": "es5",
+    "moduleResolution": "node",
+    "strict": true,
+    "esModuleInterop": true,
+    "noImplicitAny": true,
+    "sourceMap": false,
+    "removeComments": true,
+    "declaration": true,
+    "outDir": "lib"
+  },
+  "files": ["src/index.ts"]
+}
