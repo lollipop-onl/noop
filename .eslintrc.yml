@@ -6,7 +6,7 @@ extends:
 overrides:
   - files: src/**/__tests__/**/*.spec.ts
     env:
-      jest/global: true
+      jest/globals: true
     plugins:
       - jest
     extends:
