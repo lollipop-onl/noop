@@ -1,0 +1,90 @@
+name: Build, Test and Release
+on: push
+
+jobs:
+  eslint:
+    name: Check and auto-fix
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 12.x
+      - name: Get yarn cache dir
+        id: yarn-cache
+        run: echo "::set-output name=dir::$(yarn cache dir)"
+      - uses: actions/cache@v1
+        with:
+          path: ${{ steps.yarn-cache.outputs.dir }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+      - run: yarn install
+      - run: yarn run lintjs:fix --max-warnings 0
+      - name: Check for auto-fixed files
+        id: diff
+        run: |
+          if (git diff --shortstat | grep '[0-9]'); then echo "::set-output name=fixed::yes"; fi
+      - name: Setup git account
+        if: steps.diff.outputs.fixed == 'yes'
+        run: |
+          git remote set-url origin https://github-actions:$GITHUB_TOKEN@github.com/$GITHUB_REPOSITORY
+          git config --global user.name $GITHUB_ACTOR
+          git config --global user.email $GITHUB_ACTOR@users.noreply.github.com
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Push diff to repository
+        if: steps.diff.outputs.fixed == 'yes'
+        run: |
+          git add .;
+          git commit -m "Fixed auto-fixable ESLint errors";
+          git push origin HEAD:${GITHUB_REF};
+  test:
+    name: Test with Jest
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        node: [10, 12]
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node }}
+      - name: Get yarn cache dir
+        id: yarn-cache
+        run: echo "::set-output name=dir::$(yarn cache dir)"
+      - uses: actions/cache@v1
+        with:
+          path: ${{ steps.yarn-cache.outputs.dir }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+      - run: yarn install
+      - run: yarn test
+  release:
+    name: Release to npm registry
+    if: startsWith(github.ref, 'refs/tags/v')
+    needs:
+      - eslint
+      - test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node }}
+      - name: Get release version
+        id: tag-version
+        run: echo "::set-output name=version::$()"
+      - name: Get yarn cache dir
+        id: yarn-cache
+        run: echo "::set-output name=dir::$(yarn cache dir)"
+      - uses: actions/cache@v1
+        with:
+          path: ${{ steps.yarn-cache.outputs.dir }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+      - run: yarn install
+      - run: yarn build
+      - name: Setup .npmrc
+        run: echo //registry.npmjs.org/:_authToken=${NPM_AUTH_TOKEN} > .npmrc
+        env:
+          NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
+      - name: Release to npm
+        run: yarn publish --access public

@@ -1,9 +1,9 @@
-name: Release to npm registry
+name: Test with Jest
 on: push
 
 jobs:
-  release:
-    name: Test and Release
+  test:
+    name: Cross OS test
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -22,7 +22,4 @@ jobs:
           path: ${{ steps.yarn-cache.outputs.dir }}
           key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
       - run: yarn install
-      - run: yarn lint
       - run: yarn test
-      - run: yarn build
-
