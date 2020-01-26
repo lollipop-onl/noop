@@ -1,6 +1,8 @@
 import { noop, noopLax } from '..';
 
-const callback = (fn: Function) => fn();
+function callback<T extends (...args: any) => any>(fn: T): ReturnType<T> {
+  return fn();
+}
 
 describe('Test of noop function', () => {
   it('without arguments', () => {
