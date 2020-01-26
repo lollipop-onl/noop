@@ -10,10 +10,15 @@
   "main": "lib/index.js",
   "repository": "https://github.com/lollipop-onl/noop.git",
   "scripts": {
-    "build": "tsc"
+    "build": "tsc",
+    "lint": "eslint --ext .ts src",
+    "lint:fix": "eslint --ext .ts src"
   },
   "devDependencies": {
     "@types/node": "^13.5.0",
+    "@typescript-eslint/eslint-plugin": "^2.17.0",
+    "@typescript-eslint/parser": "^2.17.0",
+    "eslint": "^6.8.0",
     "typescript": "^3.7.5"
   },
   "types": "lib/index.d.ts"
