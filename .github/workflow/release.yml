@@ -1,0 +1,21 @@
+name: Release to npm registry
+on: push
+
+jobs:
+  release:
+    name: Test and Release
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        node: [8, 10, 12]
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node }}
+      - run: yarn install
+      - run: yarn lint
+      - run: yarn test
+      - run: yarn build
+
