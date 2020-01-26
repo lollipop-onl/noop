@@ -3,7 +3,7 @@ on: push
 
 jobs:
   eslint:
-    name: Check and auto-fix
+    name: Check ESLint error and warning
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master
@@ -18,7 +18,7 @@ jobs:
           path: ${{ steps.yarn-cache.outputs.dir }}
           key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
       - run: yarn install
-      - run: yarn run lintjs:fix --max-warnings 0
+      - run: yarn run lint --max-warnings 0
       - name: Check for auto-fixed files
         id: diff
         run: |
