@@ -2,9 +2,19 @@
   "name": "@lollipop-onl/noop",
   "version": "0.0.0",
   "description": "The \"noop\" function for TypeScript",
+  "license": "MIT",
+  "author": "lollipop-onl <lollipop@simoochee.net>",
+  "files": [
+    "libs/*"
+  ],
   "main": "lib/index.js",
   "repository": "https://github.com/lollipop-onl/noop.git",
-  "author": "lollipop-onl <lollipop@simoochee.net>",
-  "license": "MIT",
-  "private": false
+  "scripts": {
+    "build": "tsc"
+  },
+  "devDependencies": {
+    "@types/node": "^13.5.0",
+    "typescript": "^3.7.5"
+  },
+  "types": "lib/index.d.ts"
 }
