@@ -17,7 +17,7 @@ describe('Test of noopLax function', () => {
     expect(noopLax(1)).toEqual(undefined);
   });
 
-  it('with a numeric argument', () => {
+  it('with a string argument', () => {
     expect(noopLax('a')).toEqual(undefined);
   });
 
